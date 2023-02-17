@@ -2,7 +2,8 @@
 #include <psapi.h>
 #include <iostream>
 
-// Adds a 100,000 $ to your money everytime the program is ran, resets to previous value when restarting PCBS, it only works for my instance of PCBS because the address where the money is hold changes everytime you run the program, this means for now you need to manually supply an address to it.
+// Adds a 100,000 $ to your money everytime the program is ran, resets to previous value when restarting PCBS, it only works for my instance of PCBS because the address
+// where the money is hold changes everytime you run the program, this means for now you need to manually supply an address to it.
 
 DWORD GetProcessIdByName(const wchar_t* processName){
     DWORD processIds[1024], bytesReturned;
